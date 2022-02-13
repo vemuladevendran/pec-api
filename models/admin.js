@@ -28,6 +28,11 @@ AdminSchema = new mongoose.Schema(
       required: requiredFields("Mobile Number"),
       trim: true,
     },
+    email: {
+      type: String,
+      required: requiredFields("Email"),
+      trim: true,
+    },
     role: {
       type: String,
       enum: roles,

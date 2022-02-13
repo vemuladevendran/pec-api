@@ -4,12 +4,19 @@ const Admin = require("../../models/admin");
 const createAdmin = async (req, res, next) => {
   try {
     const filters = {
-      mobileNumber: req.body.mobileNumber,
+      $or: [
+        {
+          mobileNumber: req.body.mobileNumber,
+        },
+        {
+          email: req.body.email,
+        },
+      ],
     };
 
     const doc = await Admin.findOne(filters);
     if (doc) {
-      return res.status(400).json("Mobile Number Already Exist");
+      return res.status(400).json("Mobile Number OR Email Is Already Exist");
     }
     const data = await Admin.create(req.body);
     return res.status(201).json("Successfully Created");
@@ -24,18 +31,21 @@ const createAdmin = async (req, res, next) => {
 const updateAdmin = async (req, res, next) => {
   try {
     //   filters
-    const filters = {
-      $or: [
-        {
-          mobileNumber: req.body.mobileNumber,
-        },
-      ],
-    };
+    // const filters = {
+    //   $or: [
+    //     {
+    //       mobileNumber: req.body.mobileNumber,
+    //     },
+    //     {
+    //       email: req.body.email,
+    //     },
+    //   ],
+    // };
 
-    const doc = await Admin.findOne(filters);
-    if (doc) {
-      return res.status(400).json("Mobile Number Already Exist");
-    }
+    // const doc = await Admin.findOne(filters);
+    // if (doc) {
+    //   return res.status(400).json("Mobile Number OR Email Is Already Exist");
+    // }
 
     const updateData = await Admin.findOneAndUpdate(
       {

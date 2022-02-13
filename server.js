@@ -5,8 +5,12 @@ const departmentRoutes = require("./routes/department");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 const cors = require('cors');
+const morgan = require('morgan');
 app.use(express.json());
 app.use(cors());
+app.use(morgan('tiny'));
+
+
 app.use((error, req, res, next) => {
   res.status(400).json({
     message: error.message,

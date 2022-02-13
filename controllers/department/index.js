@@ -1,9 +1,8 @@
 "use strict";
 
 const Department = require("../../models/department");
-
+const Admin = require("../../models/admin");
 // create Department
-
 
 const createDepartment = async (req, res, next) => {
   try {
@@ -46,6 +45,20 @@ const getDepartment = async (req, res, next) => {
   }
 };
 
+// get hod list
+
+const getHods = async (req, res, next) => {
+  try {
+    const data = await Admin.find({
+      role: "hod",
+    }).select({ name: 1, id: 1 });
+    console.log(data);
+    return res.status(400).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // get department By Id
 
 const getDepartmentById = async (req, res, next) => {
@@ -73,6 +86,7 @@ const deleteDepartment = async (req, res, next) => {
 module.exports = {
   createDepartment,
   getDepartment,
+  getHods,
   getDepartmentById,
   deleteDepartment,
 };
