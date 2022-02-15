@@ -15,7 +15,6 @@ AdminSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      trim: true,
       required: requiredFields("Name"),
     },
     // department: {

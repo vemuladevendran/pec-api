@@ -9,20 +9,18 @@ const createDepartment = async (req, res, next) => {
     const filters = {
       $or: [
         {
-          departmentCode: req.departmentCode,
+          departmentCode: req.body.departmentCode,
         },
         {
-          departmentName: req.departmentName,
+          departmentName: req.body.departmentName,
         },
       ],
     };
-
     const doc = await Department.findOne(filters);
     if (doc) {
       return res.status(400).json("Department Code or Name is Already exist");
     }
-
-    const result = await Department.create(req.boby);
+    const result = await Department.create(req.body);
     return res.status(201).json("Department Created");
   } catch (error) {
     next(error);
@@ -52,8 +50,7 @@ const getHods = async (req, res, next) => {
     const data = await Admin.find({
       role: "hod",
     }).select({ name: 1, id: 1 });
-    console.log(data);
-    return res.status(400).json(data);
+    return res.status(200).json(data);
   } catch (error) {
     next(error);
   }

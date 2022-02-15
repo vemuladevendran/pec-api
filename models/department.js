@@ -14,20 +14,15 @@ const DepartmentSchema = new mongoose.Schema(
     },
     departmentName: {
       type: String,
-      trim: true,
-      unique: true,
       required: [true, requiredFields("departmentName")],
     },
     departmentCode: {
       type: String,
       trim: true,
-      unique: true,
       required: [true, requiredFields("departmentCode")],
     },
     departmentHod: {
       type: String,
-      trim: true,
-      unique: true,
       required: [true, requiredFields("departmentHod")],
     },
     years: {

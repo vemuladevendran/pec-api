@@ -31,21 +31,21 @@ const createAdmin = async (req, res, next) => {
 const updateAdmin = async (req, res, next) => {
   try {
     //   filters
-    // const filters = {
-    //   $or: [
-    //     {
-    //       mobileNumber: req.body.mobileNumber,
-    //     },
-    //     {
-    //       email: req.body.email,
-    //     },
-    //   ],
-    // };
+    const filters = {
+      $or: [
+        {
+          mobileNumber: req.body.mobileNumber,
+        },
+        {
+          email: req.body.email,
+        },
+      ],
+    };
 
-    // const doc = await Admin.findOne(filters);
-    // if (doc) {
-    //   return res.status(400).json("Mobile Number OR Email Is Already Exist");
-    // }
+    const doc = await Admin.findOne(filters);
+    if (doc) {
+      return res.status(400).json("Mobile Number OR Email Is Already Exist");
+    }
 
     const updateData = await Admin.findOneAndUpdate(
       {
