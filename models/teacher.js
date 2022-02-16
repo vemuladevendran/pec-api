@@ -13,9 +13,12 @@ const TeacherSechema = new mongoose.Schema(
       default: uuidv4,
       unique: true,
     },
-    teacherName: {
+    photo: {
       type: String,
       trim: true,
+    },
+    teacherName: {
+      type: String,
       required: [true, requiredFields("Teacher Name")],
     },
     teacherTitle: {
@@ -29,7 +32,7 @@ const TeacherSechema = new mongoose.Schema(
       required: [true, requiredFields("Teacher Id")],
     },
     email: {
-      type: email,
+      type: String,
       required: [true, requiredFields("Email")],
     },
     mobileNumber: {
@@ -42,6 +45,11 @@ const TeacherSechema = new mongoose.Schema(
     },
     handlingSubject: {
       type: Array,
+    },
+    role: {
+      type: String,
+      enum: roles,
+      default: TEACHER,
     },
   },
   options

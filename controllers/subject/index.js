@@ -1,7 +1,7 @@
 "use strict";
 
 const Subject = require("../../models/subject");
-const DepartmentSubjects = require("../../models/subject");
+// const DepartmentSubjects = require("../../models/subject");
 
 const createSubject = async (req, res, next) => {
   try {
@@ -45,46 +45,46 @@ const deleteSubject = async (req, res, next) => {
   }
 };
 
-// create department subject
+// // create department subject
 
-const createDepartmentSubject = async (req, res, next) => {
-  try {
-    await DepartmentSubjects.create(req.body);
-    return res.status(201).json("Subjects created");
-  } catch (error) {
-    next(error);
-  }
-};
+// const createDepartmentSubject = async (req, res, next) => {
+//   try {
+//     await DepartmentSubjects.create(req.body);
+//     return res.status(201).json("Subjects created");
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
-// get department subjects
+// // get department subjects
 
-const getDepartmentSubjects = async (req, res, next) => {
-  try {
-    const result = await DepartmentSubjects.find();
-    return res.status(200).json(result);
-  } catch (error) {
-    next(error);
-  }
-};
+// const getDepartmentSubjects = async (req, res, next) => {
+//   try {
+//     const result = await DepartmentSubjects.find();
+//     return res.status(200).json(result);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
-// delete department subject
-const deleteDepartmentSubject = async (req, res, next) => {
-  try {
-    const doc = await departmentSubject.findOneAndDelete({ id: req.params.id });
-    if (!doc) {
-      return res.status(404).json("Subject not found");
-    }
-    return res.status(200).json("Subject Deleted");
-  } catch (error) {
-    next(error);
-  }
-};
+// // delete department subject
+// const deleteDepartmentSubject = async (req, res, next) => {
+//   try {
+//     const doc = await departmentSubject.findOneAndDelete({ id: req.params.id });
+//     if (!doc) {
+//       return res.status(404).json("Subject not found");
+//     }
+//     return res.status(200).json("Subject Deleted");
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 module.exports = {
   createSubject,
   getSubjects,
   deleteSubject,
-  createDepartmentSubject,
-  getDepartmentSubjects,
-  deleteDepartmentSubject,
+  // createDepartmentSubject,
+  // getDepartmentSubjects,
+  // deleteDepartmentSubject,
 };
