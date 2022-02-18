@@ -19,21 +19,21 @@ const TeacherSechema = new mongoose.Schema(
     },
     teacherName: {
       type: String,
-      required: [true, requiredFields("Teacher Name")],
+      required: requiredFields("Teacher Name"),
     },
     teacherTitle: {
       type: String,
       trim: true,
-      required: [true, requiredFields("Teacher Title")],
+      required: requiredFields("Teacher Title"),
     },
     teacherId: {
       type: String,
       trim: true,
-      required: [true, requiredFields("Teacher Id")],
+      required: requiredFields("Teacher Id"),
     },
     email: {
       type: String,
-      required: [true, requiredFields("Email")],
+      required: requiredFields("Email"),
     },
     mobileNumber: {
       type: String,
@@ -43,13 +43,18 @@ const TeacherSechema = new mongoose.Schema(
       type: String,
       required: [true, requiredFields("Major Subject")],
     },
-    handlingSubject: {
+    handlingSubjects: {
       type: Array,
+      required: [true],
     },
     role: {
       type: String,
       enum: roles,
       default: TEACHER,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
   },
   options
