@@ -49,6 +49,7 @@ const getHods = async (req, res, next) => {
   try {
     const data = await Admin.find({
       role: "hod",
+      isDeleted: false,
     }).select({ name: 1, id: 1 });
     return res.status(200).json(data);
   } catch (error) {
