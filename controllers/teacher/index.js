@@ -29,6 +29,35 @@ const createTeacher = async (req, res, next) => {
     next(error);
   }
 };
+
+// updata teacher data
+
+const updataTeacher = async (req, res, next) => {
+  try {
+    // taking image file from the reqest
+
+    if (req.file?.originalname) {
+      const fileExt = req.file.originalname.split(".").pop();
+      await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
+      const staticHost = "http://localhost:3000";
+      req.body.photo = `${staticHost}/static/teachers/${req.file.filename}.${fileExt}`;
+      console.log(req.body.photo);
+    }
+    
+    const result = await Teacher.findOneAndUpdate(
+      {
+        id: req.params.id,
+        isDeleted: false,
+      },
+      req.body,
+      { new: true }
+    );
+    return res.status(200).json("Updated successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
 // teachers list
 const getTeachers = async (req, res, next) => {
   try {
@@ -43,6 +72,24 @@ const getTeachers = async (req, res, next) => {
     }
     const result = await Teacher.find(filters);
     return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get teacher by id
+
+const getTeacherById = async (req, res, next) => {
+  try {
+    const result = await Teacher.findOne({
+      isDeleted: false,
+      id: req.params.id,
+    });
+    if (!result) {
+      res.status(404).json("Teacher Not Found");
+      return;
+    }
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -64,6 +111,8 @@ const deleteTeacher = async (req, res, next) => {
 
 module.exports = {
   createTeacher,
+  updataTeacher,
+  getTeacherById,
   getTeachers,
   deleteTeacher,
 };
