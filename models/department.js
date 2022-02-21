@@ -14,33 +14,33 @@ const DepartmentSchema = new mongoose.Schema(
     },
     departmentName: {
       type: String,
-      required: [true, requiredFields("departmentName")],
+      required: requiredFields("departmentName"),
     },
     departmentCode: {
       type: String,
       trim: true,
-      required: [true, requiredFields("departmentCode")],
+      required: requiredFields("departmentCode"),
     },
     departmentHod: {
       type: String,
-      required: [true, requiredFields("departmentHod")],
+      required: requiredFields("departmentHod"),
     },
     years: {
       firstYear: {
         type: Array,
-        required: [true, requiredFields("First Year Details")],
+        required: requiredFields("First Year Details"),
       },
       secondYear: {
         type: Array,
-        required: [true, requiredFields("Second Year Details")],
+        required: requiredFields("Second Year Details"),
       },
       thirdYear: {
         type: Array,
-        required: [true, requiredFields("Third Year Details")],
+        required: requiredFields("Third Year Details"),
       },
       fourthYear: {
         type: Array,
-        required: [true, requiredFields("Fourth Year Details")],
+        required: requiredFields("Fourth Year Details"),
       },
     },
     createdBy: {
