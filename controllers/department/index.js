@@ -31,13 +31,11 @@ const createDepartment = async (req, res, next) => {
 
 const getDepartment = async (req, res, next) => {
   try {
-    const result = await Department.find({
-      years: false,
-    });
+    const result = await Department.find({}, { years: false });
     if (!result) {
       return res.status(400).json("Department details not found");
     }
-    return res.json(result);
+    return res.status(200).json(result);
   } catch (error) {
     next(error);
   }
