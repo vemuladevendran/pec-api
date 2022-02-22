@@ -43,7 +43,7 @@ const updataTeacher = async (req, res, next) => {
       req.body.photo = `${staticHost}/static/teachers/${req.file.filename}.${fileExt}`;
       console.log(req.body.photo);
     }
-    
+
     const result = await Teacher.findOneAndUpdate(
       {
         id: req.params.id,
@@ -72,6 +72,19 @@ const getTeachers = async (req, res, next) => {
     }
     const result = await Teacher.find(filters);
     return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get teachers name
+
+const getTeachersName = async (req, res, next) => {
+  try {
+    const data = await Teacher.find({
+      isDeleted: false,
+    }).select({ teacherName: 1 });
+    return res.status(200).json(data);
   } catch (error) {
     next(error);
   }
@@ -115,4 +128,5 @@ module.exports = {
   getTeacherById,
   getTeachers,
   deleteTeacher,
+  getTeachersName,
 };
