@@ -62,7 +62,7 @@ const getDepartmentById = async (req, res, next) => {
     const data = await Department.findOne({
       id: req.params.id,
     });
-    return res.status(400).json(data);
+    return res.status(200).json(data);
   } catch (error) {
     next(error);
   }
