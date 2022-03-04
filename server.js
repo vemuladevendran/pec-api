@@ -5,6 +5,7 @@ const adminRoutes = require("./routes/admin");
 const departmentRoutes = require("./routes/department");
 const subjectRoutes = require("./routes/subject");
 const teacherRoutes = require("./routes/teacher");
+const studentRoutes = require("./routes/student");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
@@ -13,12 +14,13 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(cors());
 
-app.use('/static', express.static('uploads'))
+app.use("/static", express.static("uploads"));
 
 adminRoutes(app);
 departmentRoutes(app);
 subjectRoutes(app);
 teacherRoutes(app);
+studentRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({

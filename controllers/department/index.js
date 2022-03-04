@@ -9,11 +9,11 @@ const createDepartment = async (req, res, next) => {
     const filters = {
       $or: [
         {
-          departmentCode: req.body.departmentCode,
-        },
-        {
           departmentName: req.body.departmentName,
         },
+        {
+          departmentCode: req.body.departmentCode,
+        }
       ],
     };
     const doc = await Department.findOne(filters);

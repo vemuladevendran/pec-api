@@ -13,37 +13,42 @@ const StudentSchema = new mongoose.Schema(
       default: uuidv4,
       unique: true,
     },
+    photo: {
+      type: String,
+    },
     studentName: {
       type: String,
-      required: [true, requiredFields("Student Name")],
-      trim: true,
+      required: requiredFields("Student Name"),
     },
     rollNumber: {
       type: String,
       unique: true,
       uppercase: true,
-      required: [true, requiredFields("Roll Number")],
+      required: requiredFields("Roll Number"),
       trim: true,
     },
     examNumber: {
       type: String,
       unique: true,
-      required: [true, requiredFields("Exam Number")],
+      required: requiredFields("Exam Number"),
       trim: true,
     },
     department: {
       type: String,
-      required: [true, requiredFields("Department")],
+      required: requiredFields("Department"),
     },
     year: {
       type: String,
-      required: [true, requiredFields("year")],
-      trim: true,
+      required: requiredFields("year"),
     },
     section: {
       type: String,
-      required: [true, requiredFields("section")],
+      required: requiredFields("section"),
       trim: true,
+    },
+    semester: {
+      type: String,
+      required: requiredFields("section"),
     },
     mobileNumber: {
       type: String,
@@ -53,11 +58,10 @@ const StudentSchema = new mongoose.Schema(
     email: {
       type: String,
       require: true,
-      unique: true,
     },
     address: {
       type: String,
-      required: [true, requiredFields("Address")],
+      required: requiredFields("Address"),
     },
     roles: {
       type: String,
@@ -66,7 +70,7 @@ const StudentSchema = new mongoose.Schema(
     },
     isDeleted: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     createdBy: {
       type: String,
