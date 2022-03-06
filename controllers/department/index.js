@@ -1,6 +1,7 @@
 "use strict";
 
 const Department = require("../../models/department");
+const Student = require("../../models/student");
 const Admin = require("../../models/admin");
 // create Department
 
@@ -13,7 +14,7 @@ const createDepartment = async (req, res, next) => {
         },
         {
           departmentCode: req.body.departmentCode,
-        }
+        },
       ],
     };
     const doc = await Department.findOne(filters);
@@ -61,7 +62,25 @@ const getDepartmentById = async (req, res, next) => {
   try {
     const data = await Department.findOne({
       id: req.params.id,
-    });
+    }).lean();
+    // getting students count
+    const departmentName = data?.departmentName;
+    const years = ["firstYear", "secondYear", "thirdYear", "fourthYear"];
+    const totalCount = await Student.countDocuments({
+      department: departmentName,
+    }).exec();
+    const studentsCount = await Promise.all(
+      years.map((x) => {
+        return Student.countDocuments({
+          department: departmentName,
+          year: x,
+        }).exec();
+      })
+    );
+
+    // merging count to response
+    data.studentsCount = studentsCount;
+    data.totalCount = totalCount;
     return res.status(200).json(data);
   } catch (error) {
     next(error);

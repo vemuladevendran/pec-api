@@ -33,6 +33,10 @@ const StudentSchema = new mongoose.Schema(
       required: requiredFields("Exam Number"),
       trim: true,
     },
+    dob: {
+      type: String,
+      required: requiredFields("Exam Number"),
+    },
     department: {
       type: String,
       required: requiredFields("Department"),
