@@ -22,7 +22,7 @@ const createStudent = async (req, res, next) => {
     if (doc) {
       return res
         .status(400)
-        .json("Student RollNumber Or ExamNumer already exist");
+        .json("Student RollNumber Or ExamNumber already exist");
     }
     // taking image file from the reqest
     if (req.file?.originalname) {
