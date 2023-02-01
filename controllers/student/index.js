@@ -76,6 +76,10 @@ const getStudents = async (req, res, next) => {
       filters.year = req.query.year;
     }
 
+    if (req.query.section) {
+      filters.section = req.query.section;
+    }
+
     if (req.query.rollNumber) {
       filters.rollNumber = new RegExp(req.query.rollNumber.toUpperCase());
     }

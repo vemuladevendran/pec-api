@@ -87,6 +87,19 @@ const getDepartmentById = async (req, res, next) => {
   }
 };
 
+
+const getSections = async (req, res, next) => {
+  try {
+    const data = await Department.findOne({
+      departmentName: req.params.departmentName,
+    });
+    const result = data.years[req.params.year]
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // delete department
 
 const deleteDepartment = async (req, res, next) => {
@@ -104,4 +117,5 @@ module.exports = {
   getHods,
   getDepartmentById,
   deleteDepartment,
+  getSections
 };

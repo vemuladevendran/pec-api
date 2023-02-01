@@ -4,6 +4,7 @@ const {
   getHods,
   getDepartmentById,
   deleteDepartment,
+  getSections
 } = require("../controllers/department/index");
 
 module.exports = function departmentRoutes(app) {
@@ -11,5 +12,6 @@ module.exports = function departmentRoutes(app) {
     app.get("/api/v1/department", getDepartment),
     app.get("/api/v1/department/hod", getHods),
     app.get("/api/v1/department/:id", getDepartmentById),
+    app.get("/api/v1/department/sections/:departmentName/:year", getSections),
     app.delete("/api/v1/department/:id", deleteDepartment);
 };

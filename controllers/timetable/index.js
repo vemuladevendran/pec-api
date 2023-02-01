@@ -23,9 +23,26 @@ const createTimeTable = async (req, res, next) => {
 // get timetable 
 const getTimeTables = async (req, res, next) => {
     try {
-        const result = await timeTable.find();
-        return res.status(200).json({data: result});
-        
+        const filters = {};
+
+        if (req.query.departmentName) {
+            filters.departmentName = req.query.departmentName;
+        }
+
+        if (req.query.year) {
+            filters.year = req.query.year;
+        }
+
+        if (req.query.section) {
+            filters.section = req.query.section;
+        }
+
+        const result = await timeTable.find(filters);
+        if (req.query.day) {
+            const data = result[0].timeTable[req.query.day]
+            return res.status(200).json({ data: data });
+        }
+        return res.status(200).json({ data: result });
     } catch (error) {
         console.log(error);
         next(error);
