@@ -21,6 +21,7 @@ AttendanceSchema = new mongoose.Schema(
         section: { type: String, required: true },
         periodNumber: { type: String, required: true },
         subject: { type: String, required: true },
+        absentCount: { type: String, default: 0 },
         students: [
             {
                 examNumber: { type: String, required: true },
