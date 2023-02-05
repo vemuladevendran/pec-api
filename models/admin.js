@@ -17,11 +17,6 @@ AdminSchema = new mongoose.Schema(
       type: String,
       required: requiredFields("Name"),
     },
-    // department: {
-    //   type: String,
-    //   trim: true,
-    //   required: requiredFields("Department"),
-    // },
     mobileNumber: {
       type: String,
       required: requiredFields("Mobile Number"),
@@ -31,6 +26,10 @@ AdminSchema = new mongoose.Schema(
       type: String,
       required: requiredFields("Email"),
       trim: true,
+    },
+    password: {
+      type: String,
+      default: null,
     },
     role: {
       type: String,

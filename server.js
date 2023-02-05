@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require("express");
 const db = require("./db");
 const adminRoutes = require("./routes/admin");
@@ -7,6 +10,8 @@ const teacherRoutes = require("./routes/teacher");
 const studentRoutes = require("./routes/student");
 const timeTableRoutes = require("./routes/timetable");
 const attendanceRoutes = require("./routes/attendance");
+const authRoutes = require("./routes/auth");
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
@@ -24,6 +29,7 @@ teacherRoutes(app);
 studentRoutes(app);
 timeTableRoutes(app);
 attendanceRoutes(app);
+authRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({
