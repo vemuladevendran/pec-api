@@ -63,6 +63,9 @@ const StudentSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    mentor: {
+      type: String
+    },
     address: {
       type: String,
       required: requiredFields("Address"),

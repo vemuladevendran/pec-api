@@ -5,14 +5,17 @@ const markAttendance = async (req, res, next) => {
     try {
 
         const filters = {
-            data: req.body.date,
+            date: {
+                $gte: req.body.date ? new Date(req.body.date).setHours(0, 0, 0, 0) : new Date().setHours(0, 0, 0, 0),
+                $lte: req.body.date ? new Date(req.body.date).setHours(23, 59, 59, 999) : new Date().setHours(23, 59, 59, 999),
+            },
             departmentName: req.body.departmentName,
             year: req.body.year,
             section: req.body.section,
             periodNumber: req.body.periodNumber
         };
-        const data = await attendance.find(filters);
-        if (data.length > 0) return res.status(400).json({ message: 'Attendance is already marked for this period' });
+        const data = await attendance.findOne(filters);
+        if (data) return res.status(400).json({ message: 'Attendance is already marked for this period' });
         let absentCount = 0;
         req.body.students.map((x) => {
             if (!x.attendance) absentCount += 1;
