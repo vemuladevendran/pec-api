@@ -35,6 +35,14 @@ const TeacherSechema = new mongoose.Schema(
       type: String,
       required: requiredFields("Email"),
     },
+    department: {
+      type: String,
+      required: requiredFields("department"),
+    },
+    password: {
+      type: String,
+      default: null,
+    },
     mobileNumber: {
       type: String,
       trim: true,

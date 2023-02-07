@@ -47,7 +47,7 @@ const getAttendanceReport = async (req, res, next) => {
         }
 
         const data = await attendance.find(filters);
-        return res.status(200).json({ data: data })
+        return res.status(200).json({ data: data.sort((a, b) => (a.periodNumber > b.periodNumber ? 1 : -1)) })
     } catch (error) {
         console.log(error);
         next(error);
