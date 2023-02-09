@@ -1,4 +1,4 @@
-const Student = require("../../models/student");
+const Department = require("../../models/department");
 const Teacher = require("../../models/teacher");
 const Admin = require("../../models/admin");
 const { verify, hash } = require("../../services/password");
@@ -12,11 +12,17 @@ const adminLogin = async (req, res, next) => {
         if (!doc) return res.status(400).json({ message: 'Email is not found' });
         const isPasswordMatch = await verify(req.body.password, doc.password);
         if (!isPasswordMatch) return res.status(400).json({ message: 'Invalid password' });
+        const department = await Department.findOne({ departmentHod: doc.name });
+        let departmentName = department.departmentName;
+        if (!department) {
+            departmentName = '';
+        }
         const tokenData = {
             id: doc.id,
             name: doc.name,
             email: doc.email,
             role: doc.role,
+            department: department.departmentName,
         }
         // creating token
         const token = await generate(tokenData);

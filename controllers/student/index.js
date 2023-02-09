@@ -96,6 +96,24 @@ const getStudents = async (req, res, next) => {
   }
 };
 
+// get students by examnumbers;
+const getStudentsByExamNumber = async(req, res, next) => {
+  try {
+    const numbers  = req.query.examNumber;
+    const values = Object.values(numbers);
+    const students = await Student.find({ examNumber: { $in: values } });
+     // Sort the students by exam number
+     const sortedStudents = students.sort((a, b) => {
+      const aIndex = values.indexOf(a.examNumber);
+      const bIndex = values.indexOf(b.examNumber);
+      return aIndex - bIndex;
+    });
+    return res.status(200).json(sortedStudents);
+  } catch (error) {
+    next(error);
+  }
+}
+
 // delete student
 const deleteStudent = async (req, res, next) => {
   try {
@@ -133,4 +151,5 @@ module.exports = {
   getStudents,
   deleteStudent,
   getStudentById,
+  getStudentsByExamNumber
 };

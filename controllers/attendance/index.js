@@ -60,12 +60,13 @@ const attendanceReports = async (req, res, next) => {
     try {
         const department = req?.user.department;
         const { from, to, count, year } = req.query;
+        console.log(req?.user, req.query);
         if (!from || !to) return res.status(400).json({ message: 'provide correct from and to date' })
         const absentsList = await Attendance.aggregate([
             {
                 $match: {
                     date: { $gte: new Date(new Date(from).setHours(0, 0, 0, 0)), $lte: new Date(new Date(to).setHours(23, 59, 59, 999)) },
-                    departmentName: department,
+                    departmentName: department || '',
                     year: year,
                 }
             },
@@ -75,7 +76,7 @@ const attendanceReports = async (req, res, next) => {
             {
                 $group: {
                     _id: "$students.examNumber",
-                    exmaNumber: { $first: "$students.examNumber" },
+                    examNumber: { $first: "$students.examNumber" },
                     totalAbsentCount: {
                         $sum: {
                             $cond: ["$students.attendance", 0, 1]
