@@ -11,6 +11,7 @@ const studentRoutes = require("./routes/student");
 const timeTableRoutes = require("./routes/timetable");
 const attendanceRoutes = require("./routes/attendance");
 const authRoutes = require("./routes/auth");
+const notesRoutes = require("./routes/notes");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -30,6 +31,7 @@ studentRoutes(app);
 timeTableRoutes(app);
 attendanceRoutes(app);
 authRoutes(app);
+notesRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({

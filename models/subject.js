@@ -6,7 +6,7 @@ const options = {
   timestamps: true,
 };
 
-SubjectSchema = new mongoose.Schema(
+const SubjectSchema = new mongoose.Schema(
   {
     id: {
       type: String,
@@ -24,31 +24,4 @@ SubjectSchema = new mongoose.Schema(
   },
   options
 );
-
-// DepartmentSubjects = new mongoose.Schema(
-//   {
-//     id: {
-//       type: String,
-//       default: uuidv4,
-//       unique: true,
-//     },
-//     departmentName: {
-//       type: String,
-//       required: requiredFields("Department name"),
-//     },
-
-//     year: {
-//       type: String,
-//       enum: years,
-//       required: requiredFields("Year"),
-//     },
-//     subjects: {
-//       type: Array,
-//       required: requiredFields("subjects"),
-//     },
-//   },
-//   options
-// );
-
 module.exports = mongoose.model("Subject", SubjectSchema);
-// module.exports = mongoose.model("DepartmentSubjects", DepartmentSubjects);
