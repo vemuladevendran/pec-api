@@ -1,8 +1,10 @@
 const Notes = require("../../models/notes");
+const fs = require("fs/promises");
 
 
 const uploadNotes = async (req, res, next) => {
     try {
+        console.log('-------------');
         const filters = {
             departmentName: req.body.departmentName,
             year: req.body.year,
@@ -15,9 +17,7 @@ const uploadNotes = async (req, res, next) => {
         if (doc) {
             return res.status(400).json({ message: 'Notes already exist for this subject' });
         }
-
         // taking file from the reqest
-
         if (req.file?.originalname) {
             const fileExt = req.file.originalname.split(".").pop();
             await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
@@ -37,8 +37,8 @@ const getNotes = async (req, res, next) => {
         const filters = {
             isDeleted: false,
         }
-        if (req.query.department) {
-            filters.department = req.query.department;
+        if (req.query.departmentName) {
+            filters.departmentName = req.query.departmentName;
         }
 
         if (req.query.year) {
@@ -57,7 +57,7 @@ const getNotes = async (req, res, next) => {
 
 // get notes by id
 
-const getNotesByID = async (req, res, next) => {
+const getNotesById = async (req, res, next) => {
     try {
         const filters = {
             isDeleted: false,
@@ -71,9 +71,23 @@ const getNotesByID = async (req, res, next) => {
     }
 }
 
+// delete notes
+const deleteNotes = async (req, res, next) => {
+    try {
+        const doc = await Notes.findOneAndUpdate(
+            { id: req.params.id },
+            { isDeleted: true }
+        );
+        return res.status(200).json("Teacher deleted");
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
     uploadNotes,
     getNotes,
-    getNotesByID,
+    getNotesById,
+    deleteNotes
 }
