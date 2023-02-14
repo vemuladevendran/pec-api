@@ -4,10 +4,10 @@ const fs = require("fs/promises");
 
 const uploadNotes = async (req, res, next) => {
     try {
-        console.log('-------------');
         const filters = {
             departmentName: req.body.departmentName,
             year: req.body.year,
+            semester: req.body.semester,
             subject: req.body.subject,
             unit: req.body.unit,
             isDeleted: false,
@@ -47,7 +47,9 @@ const getNotes = async (req, res, next) => {
         if (req.query.subject) {
             filters.subject = req.query.subject;
         };
-
+        if (req.query.semester) {
+            filters.semester = req.query.semester;
+        };
         const data = await Notes.find(filters);
         return res.status(200).json(data);
     } catch (error) {

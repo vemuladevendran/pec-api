@@ -7,29 +7,32 @@ const options = {
 };
 
 const DepartmentSubjects = new mongoose.Schema(
-    {
-      id: {
-        type: String,
-        default: uuidv4,
-        unique: true,
-      },
-      departmentName: {
-        type: String,
-        required: requiredFields("Department name"),
-      },
-      year: {
-        type: String,
-        enum: years,
-        required: requiredFields("Year"),
-      },
-      subjects: {
-        type: Array,
-        required: requiredFields("subjects"),
-      },
+  {
+    id: {
+      type: String,
+      default: uuidv4,
+      unique: true,
     },
-    options
-  );
-  
-  
-  module.exports = mongoose.model("DepartmentSubjects", DepartmentSubjects);
-  
+    departmentName: {
+      type: String,
+      required: requiredFields("Department name"),
+    },
+    year: {
+      type: String,
+      enum: years,
+      required: requiredFields("Year"),
+    },
+    semester: {
+      type: String,
+      required: requiredFields('semester')
+    },
+    subjects: {
+      type: Array,
+      required: requiredFields("subjects"),
+    },
+  },
+  options
+);
+
+
+module.exports = mongoose.model("DepartmentSubjects", DepartmentSubjects);

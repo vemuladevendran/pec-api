@@ -58,6 +58,9 @@ const createDepartmentSubject = async (req, res, next) => {
     if (req.body.year) {
       filters.year = req.body.year;
     }
+    if (req.body.semester) {
+      filters.semester = req.body.semester;
+    }
     const doc = await DepartmentSubjects.findOne(filters);
     if (doc) return res.status(400).json("Already subjects add for this year in this department");
     await DepartmentSubjects.create(req.body);
@@ -80,7 +83,9 @@ const getDepartmentSubjects = async (req, res, next) => {
     if (req.query.year) {
       filters.year = req.query.year;
     }
-
+    if (req.query.semester) {
+      filters.semester = req.query.semester;
+    }
     const result = await DepartmentSubjects.find(filters);
     return res.status(200).json(result);
   } catch (error) {

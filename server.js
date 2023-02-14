@@ -12,7 +12,7 @@ const timeTableRoutes = require("./routes/timetable");
 const attendanceRoutes = require("./routes/attendance");
 const authRoutes = require("./routes/auth");
 const notesRoutes = require("./routes/notes");
-
+const internalMarksRoutes = require("./routes/internal-marks");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
@@ -32,6 +32,7 @@ timeTableRoutes(app);
 attendanceRoutes(app);
 authRoutes(app);
 notesRoutes(app);
+internalMarksRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({
