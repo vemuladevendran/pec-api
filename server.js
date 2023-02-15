@@ -13,6 +13,7 @@ const attendanceRoutes = require("./routes/attendance");
 const authRoutes = require("./routes/auth");
 const notesRoutes = require("./routes/notes");
 const internalMarksRoutes = require("./routes/internal-marks");
+const announcementRoutes = require("./routes/announcement")
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
@@ -33,6 +34,7 @@ attendanceRoutes(app);
 authRoutes(app);
 notesRoutes(app);
 internalMarksRoutes(app);
+announcementRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({
