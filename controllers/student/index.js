@@ -71,6 +71,9 @@ const getStudents = async (req, res, next) => {
     if (req.query.department) {
       filters.department = req.query.department;
     }
+    if (req.query.departmentName) {
+      filters.department = req.query.departmentName;
+    }
 
     if (req.query.year) {
       filters.year = req.query.year;
@@ -91,7 +94,7 @@ const getStudents = async (req, res, next) => {
       filters.studentName = new RegExp(req.query.studentName);
     }
     const result = await Student.find(filters).sort({
-      rollNumber: "ascending",
+      examNumber: "ascending",
     });
     return res.status(200).json(result);
   } catch (error) {
