@@ -4,7 +4,7 @@ const options = {
     timestamps: true,
 };
 
-AttendanceSchema = new mongoose.Schema(
+const AttendanceSchema = new mongoose.Schema(
     {
         id: {
             type: String,

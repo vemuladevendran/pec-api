@@ -68,12 +68,14 @@ const getDepartmentById = async (req, res, next) => {
     const years = ["firstYear", "secondYear", "thirdYear", "fourthYear"];
     const totalCount = await Student.countDocuments({
       department: departmentName,
+      isDeleted: false
     }).exec();
     const studentsCount = await Promise.all(
       years.map((x) => {
         return Student.countDocuments({
           department: departmentName,
           year: x,
+          isDeleted: false,
         }).exec();
       })
     );

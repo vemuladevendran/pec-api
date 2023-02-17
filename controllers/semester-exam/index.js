@@ -29,7 +29,9 @@ const getSemesterMarks = async (req, res, next) => {
             filters.exam = req.query.exam;
         }
 
-        const semesterMarks = await SemesterExam.find(filters);
+        const semesterMarks = await SemesterExam.find(filters).sort({
+            examNumber: "ascending",
+        });
         return res.status(200).json({ data: semesterMarks });
     } catch (error) {
         next(error);
