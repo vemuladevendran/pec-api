@@ -28,8 +28,7 @@ const createStudent = async (req, res, next) => {
     if (req.file?.originalname) {
       const fileExt = req.file.originalname.split(".").pop();
       await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
-      const staticHost = "http://localhost:3000";
-      req.body.photo = `${staticHost}/static/students/${req.file.filename}.${fileExt}`;
+      req.body.photo = `${process.env.HOST}/static/students/${req.file.filename}.${fileExt}`;
     }
     const result = await Student.create(req.body);
     return res.status(201).json("created successfully");
@@ -44,8 +43,7 @@ const updateStudent = async (req, res, next) => {
     if (req.file?.originalname) {
       const fileExt = req.file.originalname.split(".").pop();
       await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
-      const staticHost = "http://localhost:3000";
-      req.body.photo = `${staticHost}/static/students/${req.file.filename}.${fileExt}`;
+      req.body.photo = `${process.env.HOST}/static/students/${req.file.filename}.${fileExt}`;
     }
 
     const result = await Student.findOneAndUpdate(

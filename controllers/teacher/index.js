@@ -20,8 +20,7 @@ const createTeacher = async (req, res, next) => {
     if (req.file?.originalname) {
       const fileExt = req.file.originalname.split(".").pop();
       await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
-      const staticHost = "http://localhost:3000";
-      req.body.photo = `${staticHost}/static/teachers/${req.file.filename}.${fileExt}`;
+      req.body.photo = `${process.env.HOST}/static/teachers/${req.file.filename}.${fileExt}`;
     }
     const result = await Teacher.create(req.body);
     return res.status(201).json("created successfully");
@@ -39,8 +38,7 @@ const updataTeacher = async (req, res, next) => {
     if (req.file?.originalname) {
       const fileExt = req.file.originalname.split(".").pop();
       await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
-      const staticHost = "http://localhost:3000";
-      req.body.photo = `${staticHost}/static/teachers/${req.file.filename}.${fileExt}`;
+      req.body.photo = `${process.env.HOST}/static/teachers/${req.file.filename}.${fileExt}`;
       console.log(req.body.photo);
     }
 
