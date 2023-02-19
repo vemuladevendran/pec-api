@@ -24,7 +24,7 @@ const TeacherSechema = new mongoose.Schema(
     teacherTitle: {
       type: String,
       trim: true,
-      required: requiredFields("Teacher Title"),
+      // required: requiredFields("Teacher Title"),
     },
     teacherId: {
       type: String,
