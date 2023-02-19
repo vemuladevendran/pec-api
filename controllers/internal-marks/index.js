@@ -44,16 +44,69 @@ const getMarks = async (req, res, next) => {
     }
 };
 
-const getMarksById = async(req, res, next) => {
+const getMarksById = async (req, res, next) => {
     try {
         const result = await InternalExam.findOne({
             id: req.params.id,
-          });
-          if (!result) {
+        });
+        if (!result) {
             res.status(404).json("Marks not found");
             return;
-          }
-          return res.status(200).json(result);
+        }
+        return res.status(200).json(result);
+    } catch (error) {
+        next(error)
+    }
+};
+
+const getMarksByExamNumber = async (req, res, next) => {
+    try {
+        const { examNumber } = req.params;
+
+        const filters = {
+            'students.examNumber': examNumber,
+        };
+        if (req.query.semester) {
+            filters.semester = req.query.semester;
+        };
+
+        const results = await InternalExam.aggregate([
+            // Match documents with the specified examNumber
+            { $match: filters },
+            // Unwind the students array to de-normalize the data
+            { $unwind: '$students' },
+            // Match the specific student with the examNumber
+            { $match: filters },
+            // Group the results by exam and subject
+            {
+                $group: {
+                    _id: { exam: '$exam', subject: '$subject' },
+                    semester: { $first: '$semester' },
+                    marks: { $sum: { $toInt: '$students.marks' } },
+                },
+            },
+            // Group the results by exam
+            {
+                $group: {
+                    _id: '$_id.exam',
+                    semester: { $first: '$semester' },
+                    subjects: {
+                        $push: {
+                            subject: '$_id.subject',
+                            marks: '$marks',
+                        },
+                    },
+                },
+            },
+            {
+                $sort: {
+                    _id: 1,
+                    semester: 1
+                }
+            }
+        ]);
+
+        res.status(200).json(results);
     } catch (error) {
         next(error)
     }
@@ -64,4 +117,5 @@ module.exports = {
     enterMarks,
     getMarks,
     getMarksById,
+    getMarksByExamNumber,
 }
