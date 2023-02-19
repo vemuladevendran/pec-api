@@ -75,6 +75,19 @@ const StudentSchema = new mongoose.Schema(
       enum: roles,
       default: STUDENT,
     },
+    password: {
+      type: String,
+      default: null,
+    },
+    securityQuestion: {
+      question: {
+        type: String,
+      },
+      answer: {
+        type: String,
+        lowercase: true,
+      }
+    },
     isDeleted: {
       type: Boolean,
       default: false,

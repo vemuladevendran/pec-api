@@ -96,6 +96,49 @@ const attendanceReports = async (req, res, next) => {
         console.log(error);
         next(error);
     }
+};
+
+
+const attendanceReportByExamNumber = async (req, res, next) => {
+    try {
+        const examNumber = req.params.examnumber;
+        const result = await Attendance.aggregate([
+            {
+                $match: { 'students.examNumber': examNumber } // match the attendance records with the given exam number
+            },
+            {
+                $project: {
+                    _id: 0,
+                    date: 1,
+                    periodNumber: 1,
+                    absent: { $cond: [{ $eq: [{ $arrayElemAt: ['$students.attendance', { $indexOfArray: ['$students.examNumber', examNumber] }] }, false] }, 1, 0] },
+                    present: { $cond: [{ $eq: [{ $arrayElemAt: ['$students.attendance', { $indexOfArray: ['$students.examNumber', examNumber] }] }, true] }, 1, 0] },
+                }
+            },
+            {
+                $group: {
+                    _id: '$date',
+                    date: { $first: "$date" },
+                    periodNumber: { $first: "$periodNumber" },
+                    present: { $sum: '$present' },
+                    absent: { $sum: '$absent' },
+                }
+            },
+            {
+                $project: {
+                    date: '$_id',
+                    periodNumber: '$periodNumber',
+                    present: 1,
+                    absent: 1,
+                    _id: 0,
+                }
+            }
+        ]).sort({date: 1}).exec();
+        return res.status(200).json(result);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 }
 
 
@@ -104,5 +147,6 @@ const attendanceReports = async (req, res, next) => {
 module.exports = {
     markAttendance,
     getAttendanceReport,
-    attendanceReports
+    attendanceReports,
+    attendanceReportByExamNumber
 }

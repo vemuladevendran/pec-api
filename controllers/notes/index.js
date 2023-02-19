@@ -19,9 +19,13 @@ const uploadNotes = async (req, res, next) => {
         }
         // taking file from the reqest
         if (req.file?.originalname) {
+            const sanitize = (str) => {
+                return str.replace(/[^\w\s.-]/gi, '');
+            }
             const fileExt = req.file.originalname.split(".").pop();
-            await fs.rename(req.file.path, `${req.file.path}.${fileExt}`);
-            req.body.pdfFile = `${process.env.HOST}/static/notes/${req.file.filename}.${fileExt}`;
+            const newFileName = `${sanitize(req.body.subject)} - ${sanitize(req.body.unit)}.${fileExt}`;
+            await fs.rename(req.file.path, `uploads/notes/${newFileName}`);
+            req.body.pdfFile = `${process.env.HOST}/static/notes/${newFileName}`;
         }
         await Notes.create(req.body);
         return res.status(201).json({ message: "upload successfully" });
@@ -84,6 +88,68 @@ const deleteNotes = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+
+const getUnitWiseNotes = async (req, res, next) => {
+    try {
+        const filters = {
+            isDeleted: false,
+        }
+        if (req.query.departmentName) {
+            filters.departmentName = req.query.departmentName;
+        }
+
+        if (req.query.year) {
+            filters.year = req.query.year;
+        }
+        if (req.query.subject) {
+            filters.subject = req.query.subject;
+        };
+        if (req.query.semester) {
+            filters.semester = req.query.semester;
+        };
+        const data = await Notes.aggregate([
+            {
+                $match: filters
+            },
+            {
+                $group: {
+                    _id: {
+                        subject: "$subject",
+                        unit: "$unit"
+                    },
+                    pdfFiles: {
+                        $push: {
+                            id: "$id",
+                            pdfFile: "$pdfFile"
+                        }
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id.subject",
+                    units: {
+                        $push: {
+                            unit: "$_id.unit",
+                            pdfFiles: "$pdfFiles"
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    subject: "$_id",
+                    units: 1,
+                    _id: 0
+                }
+            }
+        ]);
+        return res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
 }
 
 
@@ -91,5 +157,6 @@ module.exports = {
     uploadNotes,
     getNotes,
     getNotesById,
-    deleteNotes
+    deleteNotes,
+    getUnitWiseNotes
 }

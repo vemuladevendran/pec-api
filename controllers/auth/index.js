@@ -1,5 +1,6 @@
 const Department = require("../../models/department");
 const Teacher = require("../../models/teacher");
+const Student = require("../../models/student");
 const Admin = require("../../models/admin");
 const { verify, hash } = require("../../services/password");
 const { generate } = require("../../services/token");
@@ -33,7 +34,7 @@ const adminLogin = async (req, res, next) => {
     }
 };
 
-const checkTeacherEmail = async (req, res) => {
+const checkTeacherEmail = async (req, res, next) => {
     try {
         const doc = await Teacher.findOne({ isDeleted: false, email: req.body.email });
         if (!doc) return res.status(400).json({ message: 'Email is not found' });
@@ -47,7 +48,7 @@ const checkTeacherEmail = async (req, res) => {
     }
 }
 
-const setTeacherPassword = async (req, res) => {
+const setTeacherPassword = async (req, res, next) => {
     try {
         const doc = await Teacher.findOne({ isDeleted: false, email: req.body.email });
         if (!doc) return res.status(400).json({ message: 'Email is not found' });
@@ -66,9 +67,9 @@ const setTeacherPassword = async (req, res) => {
         console.log(error);
         next(error);
     }
-}
+};
 
-const teacherLogin = async (req, res) => {
+const teacherLogin = async (req, res, next) => {
     try {
         const doc = await Teacher.findOne({ isDeleted: false, email: req.body.email });
         if (!doc) return res.status(400).json({ message: 'Email is not found' });
@@ -88,13 +89,61 @@ const teacherLogin = async (req, res) => {
         console.log(error);
         next(error);
     }
-}
+};
 
 
+const checkStudentEmail = async (req, res, next) => {
+    try {
+        const doc = await Student.findOne({ isDeleted: false, email: req.body.email });
+        if (!doc) return res.status(400).json({ message: 'Email is not found' });
+        if (doc.password === null) {
+            return res.status(200).json({ message: 'setpassword' });
+        };
+        return res.status(200).json({ message: 'password' });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+
+const setStudentPassword = async (req, res, next) => {
+    try {
+        const doc = await Student.findOne({ isDeleted: false, email: req.body.email });
+        if (!doc) return res.status(400).json({ message: 'Email is not found' });
+        req.body.password = await hash(req.body.password);
+        const data = await Student.findOneAndUpdate({ id: doc.id }, req.body, { new: true });
+        const tokenData = data.toObject();
+        const token = await generate(tokenData);
+        return res.status(200).json({ token: token })
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+const studentLogin = async (req, res, next) => {
+    try {
+        const doc = await Student.findOne({ isDeleted: false, email: req.body.email });
+        if (!doc) return res.status(400).json({ message: 'Email is not found' });
+        const isPasswordMatch = await verify(req.body.password, doc.password);
+        if (!isPasswordMatch) return res.status(400).json({ message: 'Invalid password' });
+        const tokenData = doc.toObject();
+        // creating token
+        const token = await generate(tokenData);
+        return res.status(200).json({ token: token })
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
 
 module.exports = {
     adminLogin,
     checkTeacherEmail,
     setTeacherPassword,
     teacherLogin,
+    checkStudentEmail,
+    setStudentPassword,
+    studentLogin,
 }
