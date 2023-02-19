@@ -19,7 +19,7 @@ const createAdmin = async (req, res, next) => {
     if (doc) {
       return res.status(400).json("Mobile Number OR Email Is Already Exist");
     }
-    req.body[password] = await hash(req.body.mobileNumber);
+    req.body.password = await hash(req.body.mobileNumber);
     const data = await Admin.create(req.body);
     return res.status(201).json("Successfully Created");
   } catch (error) {

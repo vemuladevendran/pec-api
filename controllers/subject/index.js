@@ -93,6 +93,24 @@ const getDepartmentSubjects = async (req, res, next) => {
   }
 };
 
+const getTimeTableSubjects = async (req, res, next) => {
+  try {
+    const filters = {};
+
+    if (req.query.departmentName) {
+      filters.departmentName = req.query.departmentName;
+    }
+
+    if (req.query.year) {
+      filters.year = req.query.year;
+    }
+    const result = await DepartmentSubjects.find(filters);
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // delete department subject
 const deleteDepartmentSubject = async (req, res, next) => {
   try {
@@ -113,4 +131,5 @@ module.exports = {
   createDepartmentSubject,
   getDepartmentSubjects,
   deleteDepartmentSubject,
+  getTimeTableSubjects
 };
