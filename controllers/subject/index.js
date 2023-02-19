@@ -80,9 +80,9 @@ const getDepartmentSubjects = async (req, res, next) => {
       filters.departmentName = req.query.departmentName;
     }
 
-    if (req.query.year) {
-      filters.year = req.query.year;
-    }
+    // if (req.query.year) {
+    //   filters.year = req.query.year;
+    // }
     if (req.query.semester) {
       filters.semester = req.query.semester;
     }

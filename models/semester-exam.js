@@ -26,7 +26,6 @@ SemesterExamSchema = new mongoose.Schema(
         },
         year: {
             type: String,
-            required: requiredFields("year"),
         },
         exam: {
             type: String,

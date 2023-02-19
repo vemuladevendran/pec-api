@@ -38,6 +38,23 @@ const getSemesterMarks = async (req, res, next) => {
     }
 };
 
+const getSemesterMarksByExamNumber = async (req, res, next) => {
+    try {
+        const filters = {
+            examNumber: req.params.examNumber
+        }
+        if (req.query.semester) {
+            filters.semester = req.query.semester;
+        }
+        const semesterMarks = await SemesterExam.find(filters).sort({
+            exam: "ascending",
+        });
+        return res.status(200).json({ data: semesterMarks });
+    } catch (error) {
+        next(error);
+    }
+};
+
 // delete marks
 const deleteMarks = async (req, res, next) => {
     try {
@@ -50,4 +67,4 @@ const deleteMarks = async (req, res, next) => {
     }
 }
 
-module.exports = { uploadSemesterMarks, getSemesterMarks, deleteMarks }
+module.exports = { uploadSemesterMarks, getSemesterMarks, deleteMarks,getSemesterMarksByExamNumber }
