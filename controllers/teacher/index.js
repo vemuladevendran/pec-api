@@ -68,7 +68,7 @@ const getTeachers = async (req, res, next) => {
     }
 
     if (Object.keys(req.query).length !== 0) {
-      if (req.query.subject !== (undefined || "all")) {
+      if (req.query.subject && req.query.subject !== (undefined || "all")) {
         filters.majorSubject = req?.query?.subject;
       }
     }
@@ -78,6 +78,7 @@ const getTeachers = async (req, res, next) => {
     next(error);
   }
 };
+
 
 // get teachers name
 
