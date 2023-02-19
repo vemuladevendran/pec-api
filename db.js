@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const connection = mongoose.connect("mongodb://localhost:27017/PEC", {
+const connection = mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
