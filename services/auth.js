@@ -1,7 +1,7 @@
 const {verify} = require('./token')
 
 
-const verifyToken = async(req, res, next) => {
+const checkToken = async(req, res, next) => {
     const token = req.headers['authorization'].split('Bearer ').pop();;
     if (!token) {
         return res.status(401).json({ error: 'No token provided' });
@@ -17,5 +17,5 @@ const verifyToken = async(req, res, next) => {
 };
 
 module.exports = {
-    verifyToken,
+    checkToken,
 }
