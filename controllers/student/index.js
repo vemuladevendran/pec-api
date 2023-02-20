@@ -2,6 +2,7 @@
 
 const Student = require("../../models/student");
 const fs = require("fs/promises");
+const paginate = require("../../services/paginate");
 
 const createStudent = async (req, res, next) => {
   try {
@@ -62,6 +63,8 @@ const updateStudent = async (req, res, next) => {
 
 const getStudents = async (req, res, next) => {
   try {
+    
+    const { limit, skip } = paginate(req);
     const filters = {
       isDeleted: false,
     };
@@ -82,32 +85,42 @@ const getStudents = async (req, res, next) => {
     }
 
     if (req.query.rollNumber) {
-      filters.rollNumber = new RegExp(req.query.rollNumber.toUpperCase());
+      filters.rollNumber = new RegExp(`^${req.query.rollNumber.toUpperCase()}`);
     }
     if (req.query.examNumber) {
-      filters.examNumber = new RegExp(req.query.examNumber.toUpperCase());
+      filters.examNumber = new RegExp(`^${req.query.examNumber.toUpperCase()}`);
     }
 
     if (req.query.studentName) {
-      filters.studentName = new RegExp(req.query.studentName);
+      filters.studentName = new RegExp(req.query.studentName, "i");
     }
-    const result = await Student.find(filters).sort({
-      examNumber: "ascending",
+
+
+    const count = await Student.countDocuments(filters);
+    const totalPages = Math.ceil(count / limit);
+    const result = await Student.find(filters)
+      .sort({ examNumber: "ascending" })
+      .skip(skip)
+      .limit(limit);
+
+    return res.status(200).json({
+      totalPages: totalPages,
+      count: count,
+      data: result,
     });
-    return res.status(200).json(result);
   } catch (error) {
     next(error);
   }
 };
 
 // get students by examnumbers;
-const getStudentsByExamNumber = async(req, res, next) => {
+const getStudentsByExamNumber = async (req, res, next) => {
   try {
-    const numbers  = req.query.examNumber;
+    const numbers = req.query.examNumber;
     const values = Object.values(numbers);
     const students = await Student.find({ examNumber: { $in: values } });
-     // Sort the students by exam number
-     const sortedStudents = students.sort((a, b) => {
+    // Sort the students by exam number
+    const sortedStudents = students.sort((a, b) => {
       const aIndex = values.indexOf(a.examNumber);
       const bIndex = values.indexOf(b.examNumber);
       return aIndex - bIndex;
@@ -149,11 +162,12 @@ const getStudentById = async (req, res, next) => {
   }
 };
 
+
 module.exports = {
   createStudent,
   updateStudent,
   getStudents,
   deleteStudent,
   getStudentById,
-  getStudentsByExamNumber
+  getStudentsByExamNumber,
 };

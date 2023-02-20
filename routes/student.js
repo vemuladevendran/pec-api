@@ -6,7 +6,7 @@ const {
   getStudents,
   getStudentById,
   deleteStudent,
-  getStudentsByExamNumber
+  getStudentsByExamNumber,
 } = require("../controllers/student/index");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/students" });
