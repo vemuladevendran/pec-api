@@ -63,7 +63,7 @@ const updateStudent = async (req, res, next) => {
 
 const getStudents = async (req, res, next) => {
   try {
-    
+
     const { limit, skip } = paginate(req);
     const filters = {
       isDeleted: false,
@@ -98,16 +98,20 @@ const getStudents = async (req, res, next) => {
 
     const count = await Student.countDocuments(filters);
     const totalPages = Math.ceil(count / limit);
-    const result = await Student.find(filters)
-      .sort({ examNumber: "ascending" })
-      .skip(skip)
-      .limit(limit);
+    if (req.query.page) {
+      const result = await Student.find(filters)
+        .sort({ examNumber: "ascending" })
+        .skip(skip)
+        .limit(limit);
 
-    return res.status(200).json({
-      totalPages: totalPages,
-      count: count,
-      data: result,
-    });
+      return res.status(200).json({
+        totalPages: totalPages,
+        count: count,
+        data: result,
+      });
+    };
+    const result = await Student.find(filters).sort({ examNumber: "ascending" });
+    return res.status(200).json({ data: result });
   } catch (error) {
     next(error);
   }
