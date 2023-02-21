@@ -117,23 +117,14 @@ const attendanceReportByExamNumber = async (req, res, next) => {
             },
             {
                 $group: {
-                    _id: '$date',
+                    _id:  { $dateToString: { format: "%Y-%m-%d", date: "$date"} },
                     date: { $first: "$date" },
-                    periodNumber: { $first: "$periodNumber" },
+                    attendence: { $push: "$$ROOT" },
                     present: { $sum: '$present' },
                     absent: { $sum: '$absent' },
                 }
             },
-            {
-                $project: {
-                    date: '$_id',
-                    periodNumber: '$periodNumber',
-                    present: 1,
-                    absent: 1,
-                    _id: 0,
-                }
-            }
-        ]).sort({date: 1}).exec();
+        ]);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
