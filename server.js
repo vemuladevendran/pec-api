@@ -16,6 +16,7 @@ const internalMarksRoutes = require("./routes/internal-marks");
 const announcementRoutes = require("./routes/announcement");
 const semesterMarksRoutes = require("./routes/semester-marks");
 const profileRoutes = require("./routes/profile");
+const mentiesRoutes = require("./routes/menties");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -41,6 +42,7 @@ internalMarksRoutes(app);
 announcementRoutes(app);
 semesterMarksRoutes(app);
 profileRoutes(app);
+mentiesRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({

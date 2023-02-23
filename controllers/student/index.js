@@ -155,7 +155,7 @@ const getStudentById = async (req, res, next) => {
     const result = await Student.findOne({
       isDeleted: false,
       id: req.params.id,
-    });
+    }, { password: false });
     if (!result) {
       res.status(404).json("Student Not Found");
       return;
