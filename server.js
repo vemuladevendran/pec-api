@@ -24,9 +24,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 app.use(morgan("tiny"));
 app.use(express.json());
-app.use(cors());
+
 app.use(cors({
-  origin: ['*', 'http//:localhost:4200', 'https://admin-pec.web.app', 'https://staff-pec.web.app', 'https://student-pec.web.app']
+  origin: '*'
 }));
 
 app.use("/static", express.static("uploads"));
