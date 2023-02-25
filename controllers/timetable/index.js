@@ -39,6 +39,7 @@ const getTimeTables = async (req, res, next) => {
 
         const result = await timeTable.find(filters);
         if (req.query.day) {
+            console.log(req.query.day, '-----------', result[0])
             const data = result[0].timeTable[req.query.day]
             return res.status(200).json({ data: data });
         }
