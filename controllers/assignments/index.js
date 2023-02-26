@@ -14,7 +14,7 @@ const uploadAssignments = async (req, res, next) => {
         }
         // checking assignment already uploaded or not
         const doc = await Assignments.findOne(filters);
-        if (doc) return res.status(400).json({ message: 'Assignment already upload for this unit' });
+        if (doc) return res.status(400).json({ message: `Assignment ${doc.unit} already exist` });
         // taking file from the reqest
         if (req.file?.originalname) {
             const sanitize = (str) => {
