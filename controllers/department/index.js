@@ -28,6 +28,23 @@ const createDepartment = async (req, res, next) => {
   }
 };
 
+
+const updateDepartment = async (req, res, next) => {
+  try {
+    const result = await Department.findOneAndUpdate(
+      {
+        id: req.params.id,
+      },
+      req.body,
+      { new: true }
+    );
+    return res.status(200).json("Updated successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 // get department
 
 const getDepartment = async (req, res, next) => {
@@ -119,5 +136,6 @@ module.exports = {
   getHods,
   getDepartmentById,
   deleteDepartment,
-  getSections
+  getSections,
+  updateDepartment
 };

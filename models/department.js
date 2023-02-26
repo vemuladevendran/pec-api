@@ -25,6 +25,10 @@ const DepartmentSchema = new mongoose.Schema(
       type: String,
       required: requiredFields("departmentHod"),
     },
+    departmentId:{
+      type: String,
+      required: requiredFields("department ID"),
+    },
     years: {
       firstYear: {
         type: Array,

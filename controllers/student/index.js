@@ -92,7 +92,7 @@ const getStudents = async (req, res, next) => {
     }
 
     if (req.query.studentName) {
-      filters.studentName = new RegExp(req.query.studentName, "i");
+      filters.studentName = new RegExp(req.query.studentName);
     }
 
 
