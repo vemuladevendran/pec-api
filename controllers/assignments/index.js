@@ -41,10 +41,10 @@ const getAssignments = async (req, res, next) => {
             isDeleted: false,
         }
         if (req.query.studentName) {
-            filters.studentName = req.query.studentName;
+            filters.studentName = new RegExp(`${req.query.studentName}`);;
         }
         if (req.query.examNumber) {
-            filters.examNumber = req.query.examNumber;
+            filters.examNumber = new RegExp(`${req.query.examNumber}`);;
         }
         if (req.query.departmentName) {
             filters.departmentName = req.query.departmentName;
@@ -56,7 +56,7 @@ const getAssignments = async (req, res, next) => {
             filters.section = req.query.section;
         }
         if (req.query.subject) {
-            filters.subject = req.query.subject;
+            filters.subject = new RegExp(`${req.query.subject}`);
         };
 
         const result = await Assignments.aggregate([
@@ -68,6 +68,8 @@ const getAssignments = async (req, res, next) => {
                     _id: {
                         studentName: "$studentName",
                         examNumber: "$examNumber",
+                        id: "$id",
+                        marks: "$marks",
                         subject: "$subject",
                         unit: "$unit"
                     },
@@ -84,7 +86,9 @@ const getAssignments = async (req, res, next) => {
                     units: {
                         $push: {
                             unit: "$_id.unit",
-                            pdfFiles: "$pdfFiles"
+                            pdfFiles: "$pdfFiles",
+                            id: "$_id.id",
+                            marks: "$_id.marks",
                         }
                     }
                 }
@@ -93,7 +97,7 @@ const getAssignments = async (req, res, next) => {
                 $group: {
                     _id: {
                         studentName: "$_id.studentName",
-                        examNumber: "$_id.examNumber"
+                        examNumber: "$_id.examNumber",
                     },
                     subjects: {
                         $push: {
@@ -102,7 +106,8 @@ const getAssignments = async (req, res, next) => {
                         }
                     }
                 }
-            }
+            },
+            { $sort: { "_id.examNumber": 1 } }
         ]);
         return res.status(200).json(result);
     } catch (error) {
@@ -121,11 +126,26 @@ const deleteAssignment = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
+
+
+const assignMartks = async (req, res, next) => {
+    try {
+        await Assignments.findOneAndUpdate(
+            { id: req.params.id, isDeleted: false },
+            req.body,
+            { new: true }
+        );
+        return res.status(200).json("Marks updated");
+    } catch (error) {
+        next(error);
+    }
+};
 
 
 module.exports = {
     uploadAssignments,
     getAssignments,
-    deleteAssignment
+    deleteAssignment,
+    assignMartks,
 }

@@ -2,7 +2,6 @@ const {verify} = require('./token')
 
 
 const checkToken = async(req, res, next) => {
-    console.log(req.headers, '===========');
     const token = req.headers['authorization'].split('Bearer ').pop();;
     if (!token) {
         return res.status(401).json({ error: 'No token provided' });

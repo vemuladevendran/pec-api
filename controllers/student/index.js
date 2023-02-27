@@ -85,10 +85,10 @@ const getStudents = async (req, res, next) => {
     }
 
     if (req.query.rollNumber) {
-      filters.rollNumber = new RegExp(`^${req.query.rollNumber.toUpperCase()}`);
+      filters.rollNumber = new RegExp(`${req.query.rollNumber.toUpperCase()}`);
     }
     if (req.query.examNumber) {
-      filters.examNumber = new RegExp(`^${req.query.examNumber.toUpperCase()}`);
+      filters.examNumber = new RegExp(`${req.query.examNumber.toUpperCase()}`);
     }
 
     if (req.query.studentName) {
