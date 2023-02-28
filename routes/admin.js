@@ -5,11 +5,12 @@ const {
   getAdminsById,
   deleteAdmin,
 } = require("../controllers/admin/index");
+const { checkToken } = require("../services/auth");
 
 module.exports = function adminRoutes(app) {
-  app.post("/api/v1/admin", createAdmin);
-  app.get("/api/v1/admin", getAdmins);
-  app.get("/api/v1/admin/:id", getAdminsById);
-  app.put("/api/v1/admin/:id", updateAdmin);
-  app.delete("/api/v1/admin/:id", deleteAdmin);
+  app.post("/api/v1/admin",checkToken, createAdmin);
+  app.get("/api/v1/admin",checkToken, getAdmins);
+  app.get("/api/v1/admin/:id",checkToken, getAdminsById);
+  app.put("/api/v1/admin/:id",checkToken, updateAdmin);
+  app.delete("/api/v1/admin/:id",checkToken, deleteAdmin);
 };
