@@ -135,10 +135,9 @@ const studentLogin = async (req, res, next) => {
 const resetStudentPassword = async (req, res, next) => {
     try {
         const user = req.user;
-        if (user.role !== 'admin' || user.role !== 'hod') {
+        if (user.role !== 'admin' && user.role !== 'hod') {
             return res.status(400).json("You Dont have permision to reset");
-        };
-
+        }
         const student = await Student.findOne({ examNumber: req.query.examNumber });
         if (!student) return res.status(400).json("Student not found");
         const password = await hash('default');
