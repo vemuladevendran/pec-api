@@ -38,6 +38,8 @@ const studentProfile = async (req, res, next) => {
 };
 
 
+
+
 module.exports = {
     teacherProfile,
     adminProfile,

@@ -6,6 +6,8 @@ const {
     checkStudentEmail,
     setStudentPassword,
     studentLogin,
+    resetStudentPassword,
+    resetStaffPassword,
 } = require("../controllers/auth/index");
 
 module.exports = function authRoutes(app) {
@@ -16,4 +18,6 @@ module.exports = function authRoutes(app) {
     app.post("/api/v1/student/checkemail", checkStudentEmail);
     app.post("/api/v1/student/login", studentLogin);
     app.post("/api/v1/student/setpassword", setStudentPassword);
+    app.get("/api/v1/reset-password/student", resetStudentPassword);
+    app.get("/api/v1/reset-password/teacher", resetStaffPassword);
 };
