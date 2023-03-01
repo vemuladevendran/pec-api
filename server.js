@@ -18,6 +18,7 @@ const semesterMarksRoutes = require("./routes/semester-marks");
 const profileRoutes = require("./routes/profile");
 const mentiesRoutes = require("./routes/menties");
 const assignmentsRoutes = require("./routes/assignments");
+const certificatesRoutes = require("./routes/certificates");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -44,6 +45,7 @@ semesterMarksRoutes(app);
 profileRoutes(app);
 mentiesRoutes(app);
 assignmentsRoutes(app);
+certificatesRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({
