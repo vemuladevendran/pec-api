@@ -19,6 +19,7 @@ const profileRoutes = require("./routes/profile");
 const mentiesRoutes = require("./routes/menties");
 const assignmentsRoutes = require("./routes/assignments");
 const certificatesRoutes = require("./routes/certificates");
+const placementRoutes = require("./routes/placement");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -46,6 +47,7 @@ profileRoutes(app);
 mentiesRoutes(app);
 assignmentsRoutes(app);
 certificatesRoutes(app);
+placementRoutes(app);
 
 app.use((error, req, res, next) => {
   res.status(500).json({
