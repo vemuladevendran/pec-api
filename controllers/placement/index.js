@@ -4,11 +4,11 @@ const Placement = require("../../models/placement");
 const createPlacement = async (req, res, next) => {
     try {
         const user = req.user;
-        req['studentName'] = user.studentName;
-        req['examNumber'] = user.examNumber;
-        req['deparnmentName'] = user.department;
+        req.body['studentName'] = user.studentName;
+        req.body['examNumber'] = user.examNumber;
+        req.body['deparnmentName'] = user.department;
         await Placement.create(req.body);
-        res.status(201).json('Successfull');
+        return res.status(201).json('Successfull');
     } catch (error) {
         next(error);
     }
@@ -43,7 +43,8 @@ const updateStatus = async (req, res, next) => {
                 id: req.params.id,
             },
             req.body,
-            { new: true })
+            { new: true });
+        return res.status(200).json('Status updated');
     } catch (error) {
         next(error);
     }

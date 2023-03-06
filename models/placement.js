@@ -16,7 +16,7 @@ PlacementSchema = new mongoose.Schema(
             type: String,
             required: requiredFields("Student Name"),
         },
-        exmaNumber: {
+        examNumber: {
             type: String,
             required: requiredFields("Exam Number"),
         },
