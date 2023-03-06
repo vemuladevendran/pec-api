@@ -6,7 +6,7 @@ const createPlacement = async (req, res, next) => {
         const user = req.user;
         req.body['studentName'] = user.studentName;
         req.body['examNumber'] = user.examNumber;
-        req.body['deparnmentName'] = user.department;
+        req.body['departmentName'] = user.department;
         await Placement.create(req.body);
         return res.status(201).json('Successfull');
     } catch (error) {

@@ -20,7 +20,7 @@ PlacementSchema = new mongoose.Schema(
             type: String,
             required: requiredFields("Exam Number"),
         },
-        deparnmentName: {
+        departmentName: {
             type: String,
             required: requiredFields("Department"),
         },
